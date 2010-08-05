@@ -7,17 +7,18 @@
 
 using namespace std;
 
+class cLogger;
 class cLogger
 {
 public:
     cLogger() throw();
+    cLogger( const cSeverity::teSeverity p_enSev, const cLogger *p_poOrigLogger ) throw();
     ~cLogger() throw();
 
-    void registerWriter( cLogWriter* p_poWriter ) throw();
+    void                   registerWriter( cLogWriter* p_poWriter ) throw();
 
-    cLogger &operator <<( const cSeverity::teSeverity p_enSev ) {
-        m_enSeverity = p_enSev;
-        return *this;
+    cLogger operator <<( const cSeverity::teSeverity p_enSev ) {
+        return cLogger( p_enSev, this );
     }
 
 private:
