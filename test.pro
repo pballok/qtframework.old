@@ -1,15 +1,12 @@
 TEMPLATE = app
-
-HEADERS = \
-    consolewriter.h \
+HEADERS = consolewriter.h \
     logger.h \
     logwriter.h \
     severity.h \
-    sevexception.h
-
-SOURCES = \
-    consolewriter.cpp \
+    sevexception.h \
+    logmessage.h
+SOURCES = consolewriter.cpp \
     logger.cpp \
-    test.cpp
-
+    test.cpp \
+    logmessage.cpp
 CONFIG += qt

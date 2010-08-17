@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 #include "logwriter.h"
+#include "logmessage.h"
 #include "severity.h"
 #include <vector>
 
@@ -12,18 +13,16 @@ class cLogger
 {
 public:
     cLogger() throw();
-    cLogger( const cSeverity::teSeverity p_enSev, const cLogger *p_poOrigLogger ) throw();
     ~cLogger() throw();
 
     void                   registerWriter( cLogWriter* p_poWriter ) throw();
 
-    cLogger operator <<( const cSeverity::teSeverity p_enSev ) {
-        return cLogger( p_enSev, this );
+    cLogMessage operator <<( const cSeverity::teSeverity p_enSev ) {
+        return cLogMessage( p_enSev, this );
     }
 
 private:
     vector<cLogWriter*>    m_veWriters;
-    cSeverity::teSeverity  m_enSeverity;
 };
 
 #endif

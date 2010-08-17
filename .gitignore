@@ -3,4 +3,5 @@ test
 test.pro.user
 consolewriter.o
 logger.o
+logmessage.o
 test.o

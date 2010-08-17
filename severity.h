@@ -1,3 +1,6 @@
+#ifndef SEVERITY_H
+#define SEVERITY_H
+
 class cSeverity
 {
 public:
@@ -24,4 +27,4 @@ public:
     }
 };
 
-
+#endif // SEVERITY_H
