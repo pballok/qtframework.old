@@ -1,12 +1,11 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#include <vector>
+
 #include "logwriter.h"
 #include "logmessage.h"
 #include "severity.h"
-#include <vector>
-
-using namespace std;
 
 class cLogger;
 class cLogger
@@ -17,12 +16,12 @@ public:
 
     void                   registerWriter( cLogWriter* p_poWriter ) throw();
 
-    cLogMessage operator <<( const cSeverity::teSeverity p_enSev ) {
+    inline cLogMessage operator <<( const cSeverity::teSeverity p_enSev ) {
         return cLogMessage( p_enSev, this );
     }
 
 private:
-    vector<cLogWriter*>    m_veWriters;
+    std::vector<cLogWriter*>    m_veWriters;
 };
 
 #endif

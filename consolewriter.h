@@ -9,7 +9,7 @@ public:
     cConsoleWriter() throw();
     virtual ~cConsoleWriter() throw();
 
-    virtual void writeMessage( const string &p_stMessage ) const throw();
+    virtual void writeMessage( const std::string &p_stMessage ) const throw();
 };
 
 #endif

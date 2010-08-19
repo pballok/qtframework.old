@@ -3,15 +3,13 @@
 
 #include <string>
 
-using namespace std;
-
 class cLogWriter
 {
 public:
     cLogWriter() throw() { };
     virtual ~cLogWriter() throw() { };
 
-    virtual void writeMessage( const string &p_stMessage ) const throw() = 0;
+    virtual void writeMessage( const std::string &p_stMessage ) const throw() = 0;
 };
 
 #endif
