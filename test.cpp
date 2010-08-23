@@ -7,12 +7,12 @@ int main( int argc, char* argv[] )
 {
     QApplication  apMainApp( argc, argv );
 
-    cConsoleWriter  obConsoleWriter;
     cLogger         obLogger;
 
+    cConsoleWriter  obConsoleWriter( cSeverity::DEBUG );
     obLogger.registerWriter( &obConsoleWriter );
 
-    obLogger << cSeverity::DEBUG;
+    obLogger << cSeverity::DEBUG << "This is a DEBUG message" << cLogMessage::EOM;
 
     return 0;
 }

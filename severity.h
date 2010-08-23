@@ -25,6 +25,9 @@ public:
             default:      return "INVALID";
         }
     }
+
+private:
+    cSeverity() {}
 };
 
 #endif // SEVERITY_H

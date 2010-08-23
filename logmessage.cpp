@@ -1,5 +1,9 @@
+#include <string>
+
 #include "logmessage.h"
 #include "logger.h"
+
+using namespace std;
 
 cLogMessage::cLogMessage()
 {
@@ -22,14 +26,15 @@ cLogMessage::cLogMessage( const cSeverity::teSeverity p_enSev, cLogger *p_poLogg
 
 cLogMessage::~cLogMessage()
 {
-//    if( m_ssMessage.str() != "" ) m_poLogger->writeMessage( m_enSeverity, m_ssMessage.str() );
+    string stMsg( m_ssMessage.str() );
+    if( stMsg != "" ) m_poLogger->writeMessage( m_enSeverity, stMsg );
 }
 
 cLogMessage &cLogMessage::operator <<( const teLoggerManip p_enManip ) {
     switch( p_enManip )
     {
         case EOM:
-//            m_poLogger->writeMessage( m_enSeverity, m_ssMessage.str() );
+            m_poLogger->writeMessage( m_enSeverity, m_ssMessage.str() );
             // There's no 'break' here because the EOM manipulator
             // needs to do a 'CLEAR' as well
         case CLEAR:

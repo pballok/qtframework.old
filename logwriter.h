@@ -3,13 +3,22 @@
 
 #include <string>
 
+#include "severity.h"
+
 class cLogWriter
 {
 public:
     cLogWriter() throw() { };
+    cLogWriter( cSeverity::teSeverity p_enSev ) { m_enMinSeverity = p_enSev; }
     virtual ~cLogWriter() throw() { };
 
-    virtual void writeMessage( const std::string &p_stMessage ) const throw() = 0;
+    cSeverity::teSeverity  minSeverity() const throw() { return m_enMinSeverity; }
+    void                   setMinSeverity( const cSeverity::teSeverity p_enSev ) { m_enMinSeverity = p_enSev; }
+
+    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) const throw() = 0;
+
+protected:
+    cSeverity::teSeverity  m_enMinSeverity;
 };
 
 #endif
