@@ -5,3 +5,5 @@ consolewriter.o
 logger.o
 logmessage.o
 test.o
+tracer.o
+
