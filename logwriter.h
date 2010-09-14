@@ -8,9 +8,9 @@
 class cLogWriter
 {
 public:
-    cLogWriter() throw() { };
+    cLogWriter() throw() { m_enMinSeverity = cSeverity::NONE; }
     cLogWriter( cSeverity::teSeverity p_enSev ) { m_enMinSeverity = p_enSev; }
-    virtual ~cLogWriter() throw() { };
+    virtual ~cLogWriter() throw() { }
 
     cSeverity::teSeverity  minSeverity() const throw() { return m_enMinSeverity; }
     void                   setMinSeverity( const cSeverity::teSeverity p_enSev ) { m_enMinSeverity = p_enSev; }
