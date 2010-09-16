@@ -7,6 +7,7 @@
 #include "logwriter.h"
 #include "logmessage.h"
 #include "severity.h"
+#include "sevexception.h"
 
 class cLogger;
 class cLogger
@@ -21,6 +22,12 @@ public:
     inline cLogMessage operator <<( const cSeverity::teSeverity p_enSev ) {
         return cLogMessage( p_enSev, this );
     }
+
+    cLogger &operator <<( const cSevException &p_obException ) {
+        writeMessage( p_obException.severity(), p_obException.what() );
+        return *this;
+    }
+
 
 private:
     typedef std::vector<cLogWriter*>   tvWriters;
