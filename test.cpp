@@ -2,6 +2,7 @@
 
 #include "logger.h"
 #include "consolewriter.h"
+#include "guiwriter.h"
 #include "tracer.h"
 
 int main( int argc, char* argv[] )
@@ -12,6 +13,9 @@ int main( int argc, char* argv[] )
 
     cConsoleWriter  obConsoleWriter( cSeverity::DEBUG );
     obLogger.registerWriter( &obConsoleWriter );
+
+    cGUIWriter  obGUIWriter( cSeverity::INFO );
+    obLogger.registerWriter( &obGUIWriter );
 
     cTracer obTracer1( &obLogger, "This is the first TRACER message", "param" );
 

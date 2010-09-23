@@ -2,6 +2,7 @@ Makefile
 test
 test.pro.user
 consolewriter.o
+guiwriter.o
 logger.o
 logmessage.o
 test.o

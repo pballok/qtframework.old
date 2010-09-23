@@ -5,10 +5,12 @@ HEADERS = consolewriter.h \
     logwriter.h \
     severity.h \
     sevexception.h \
-    tracer.h
+    tracer.h \
+    guiwriter.h
 SOURCES = consolewriter.cpp \
     logger.cpp \
     logmessage.cpp \
     test.cpp \
-    tracer.cpp
+    tracer.cpp \
+    guiwriter.cpp
 CONFIG += qt
