@@ -6,13 +6,11 @@
 
 #include "severity.h"
 
-using namespace std;
-
-class cSevException : public exception
+class cSevException : public std::exception
 {
 public:
     cSevException( const cSeverity::teSeverity  p_enSev,
-                   const string                &p_stMsg ) throw ()
+                   const std::string           &p_stMsg ) throw ()
         : m_enSeverity( p_enSev ), m_stMsg( p_stMsg ) { }
     virtual ~cSevException() throw() { }
 
@@ -21,7 +19,7 @@ public:
 
 private:
     cSeverity::teSeverity  m_enSeverity;
-    string                 m_stMsg;
+    std::string            m_stMsg;
 };
 
 #endif
