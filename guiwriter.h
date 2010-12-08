@@ -12,7 +12,7 @@ public:
     cGUIWriter( cSeverity::teSeverity p_enSev, QWidget* p_poParent = 0 ) throw();
     virtual ~cGUIWriter() throw();
 
-    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) const throw();
+    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw();
 
 private:
     QWidget*  m_poParent;

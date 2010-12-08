@@ -15,7 +15,7 @@ cGUIWriter::~cGUIWriter() throw()
 {
 }
 
-void cGUIWriter::writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) const throw()
+void cGUIWriter::writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw()
 {
     if( p_enSeverity <= m_enMinSeverity )
     {

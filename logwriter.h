@@ -15,7 +15,7 @@ public:
     cSeverity::teSeverity  minSeverity() const throw() { return m_enMinSeverity; }
     void                   setMinSeverity( const cSeverity::teSeverity p_enSev ) { m_enMinSeverity = p_enSev; }
 
-    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) const throw() = 0;
+    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw() = 0;
 
 protected:
     cSeverity::teSeverity  m_enMinSeverity;

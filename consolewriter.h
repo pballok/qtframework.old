@@ -10,7 +10,7 @@ public:
     cConsoleWriter( cSeverity::teSeverity p_enSev ) throw();
     virtual ~cConsoleWriter() throw();
 
-    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) const throw();
+    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw();
 };
 
 #endif
