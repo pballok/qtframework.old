@@ -36,6 +36,11 @@ void cQTMySQLConnection::close( void ) throw( cSevException )
     }
 }
 
+bool cQTMySQLConnection::isOpen( void ) const throw()
+{
+    return m_boOpen;
+}
+
 void cQTMySQLConnection::executeQuery( const QString &p_qsQuery )
                          throw( cSevException )
 {
@@ -86,7 +91,7 @@ void cQTMySQLConnection::setHostName( const QString &p_qsHost ) throw()
     }
 }
 
-QString cQTMySQLConnection::hostName( void ) throw()
+QString cQTMySQLConnection::hostName( void ) const throw()
 {
     return m_poDB->hostName();
 }
@@ -102,7 +107,7 @@ void cQTMySQLConnection::setDatabaseName( const QString &p_qsDB ) throw()
     }
 }
 
-QString cQTMySQLConnection::databaseName( void ) throw()
+QString cQTMySQLConnection::databaseName( void ) const throw()
 {
     return m_poDB->databaseName();
 }
@@ -118,7 +123,7 @@ void cQTMySQLConnection::setUserName( const QString &p_qsUser ) throw()
     }
 }
 
-QString cQTMySQLConnection::userName( void ) throw()
+QString cQTMySQLConnection::userName( void ) const throw()
 {
     return m_poDB->userName();
 }
@@ -134,7 +139,18 @@ void cQTMySQLConnection::setPassword( const QString &p_qsPwd ) throw()
     }
 }
 
-QString cQTMySQLConnection::password( void ) throw()
+QString cQTMySQLConnection::password( void ) const throw()
 {
     return m_poDB->password();
+}
+
+QStringList cQTMySQLConnection::columnList( const QString &p_qsTableName ) const throw( cSevException )
+{
+    QStringList  slColumns;
+    QSqlRecord obRecord = m_poDB->record( p_qsTableName );
+    for( int i = 0; i < obRecord.count(); i++ )
+    {
+        slColumns.append( obRecord.field( i ).name() );
+    }
+    return slColumns;
 }
