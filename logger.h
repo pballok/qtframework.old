@@ -9,27 +9,37 @@
 #include "severity.h"
 #include "sevexception.h"
 
-class cLogger;
 class cLogger
 {
 public:
-    cLogger() throw();
-    ~cLogger() throw();
+    inline static cLogger& instance()
+    {
+        static cLogger m_obInstance;
+        return m_obInstance;
+    }
 
     void  registerWriter( cLogWriter* p_poWriter ) throw();
-    void  writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage );
+    void  writeMessage( const cSeverity::teSeverity p_enSeverity,
+                        const std::string &p_stMessage );
 
-    inline cLogMessage operator <<( const cSeverity::teSeverity p_enSev ) {
+    inline cLogMessage operator <<( const cSeverity::teSeverity p_enSev )
+    {
         return cLogMessage( p_enSev, this );
     }
 
-    cLogger &operator <<( const cSevException &p_obException ) {
+    inline cLogger& operator <<( const cSevException &p_obException )
+    {
         writeMessage( p_obException.severity(), p_obException.what() );
         return *this;
     }
 
 
 private:
+    inline explicit cLogger() throw() {}
+    inline ~cLogger() throw() {}
+    inline explicit cLogger( cLogger const& ) {}
+    inline cLogger& operator =( cLogger const& ) { return *this; }
+
     typedef std::vector<cLogWriter*>   tvWriters;
     typedef tvWriters::const_iterator  tiWriters;
 
