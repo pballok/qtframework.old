@@ -8,15 +8,13 @@
 #include "logmessage.h"
 #include "severity.h"
 #include "sevexception.h"
+#include "singleton.h"
 
 class cLogger
 {
 public:
-    inline static cLogger& instance()
-    {
-        static cLogger m_obInstance;
-        return m_obInstance;
-    }
+    inline explicit cLogger() throw() {}
+    inline ~cLogger() throw() {}
 
     void  registerWriter( cLogWriter* p_poWriter ) throw();
     void  writeMessage( const cSeverity::teSeverity p_enSeverity,
@@ -33,17 +31,13 @@ public:
         return *this;
     }
 
-
 private:
-    inline explicit cLogger() throw() {}
-    inline ~cLogger() throw() {}
-    inline explicit cLogger( cLogger const& ) {}
-    inline cLogger& operator =( cLogger const& ) { return *this; }
-
     typedef std::vector<cLogWriter*>   tvWriters;
     typedef tvWriters::const_iterator  tiWriters;
 
     tvWriters    m_veWriters;
 };
+
+typedef cSingleton<cLogger> tgLogger;
 
 #endif
