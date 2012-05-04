@@ -1,15 +1,14 @@
 #include "severity.h"
 #include "tracer.h"
+#include "logger.h"
 
 using namespace std;
 
 unsigned int cTracer::m_uiIndent = 0;
 
-cTracer::cTracer( cLogger* p_poLogger,
-                  const string &p_stFuncName,
+cTracer::cTracer( const string &p_stFuncName,
                   const string &p_stInParams )
-        : m_poLogger( p_poLogger ),
-          m_stFuncName( p_stFuncName )
+        : m_stFuncName( p_stFuncName )
 {
     string  stMessage( m_uiIndent++, ' ');
     stMessage += p_stFuncName;
@@ -17,7 +16,7 @@ cTracer::cTracer( cLogger* p_poLogger,
     stMessage += p_stInParams;
     stMessage += " ) >";
 
-    m_poLogger->writeMessage( cSeverity::DEBUG, stMessage );
+    tgLogger::instance().writeMessage( cSeverity::DEBUG, stMessage );
 }
 
 cTracer::~cTracer()
@@ -28,5 +27,5 @@ cTracer::~cTracer()
     stMessage += m_ssOutParams.str();
     stMessage += " ) <";
 
-    m_poLogger->writeMessage( cSeverity::DEBUG, stMessage );
+    tgLogger::instance().writeMessage( cSeverity::DEBUG, stMessage );
 }

@@ -4,14 +4,12 @@
 #include <string>
 #include <sstream>
 
-#include "logger.h"
-
 class cTracer
 {
 public:
     static unsigned int m_uiIndent;
 
-    cTracer( cLogger* p_poLogger, const std::string &p_stFuncName, const std::string &p_stInParams = "" );
+    cTracer( const std::string &p_stFuncName, const std::string &p_stInParams = "" );
     ~cTracer();
 
     cTracer &operator <<( const int p_inParam ) {
@@ -24,7 +22,6 @@ public:
     }
 
 private:
-    cLogger*           m_poLogger;
     std::string        m_stFuncName;
     std::stringstream  m_ssOutParams;
 };

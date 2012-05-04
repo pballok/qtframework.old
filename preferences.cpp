@@ -54,10 +54,3 @@ void cPreferences::save() const throw(cSevException)
     writeSettings( &obPrefFile );
 }
 
-void cPreferences::readSettings( const QSettings* )
-{
-}
-
-void cPreferences::writeSettings( const QSettings* ) const
-{
-}

@@ -25,9 +25,11 @@ cFileWriter::cFileWriter( cSeverity::teSeverity p_enSev,
                 time_t ttRawTime = time( NULL );
                 struct tm *poTm = localtime( &ttRawTime );
                 ostringstream  ssTimeStamp;
+
                 ssTimeStamp << setw(2) << setfill('0') << poTm->tm_mday;
                 ssTimeStamp << setw(2) << setfill('0') << poTm->tm_mon + 1;
                 ssTimeStamp << poTm->tm_year+1900;
+
                 ssTimeStamp << "_";
                 ssTimeStamp << setw(2) << setfill('0') << poTm->tm_hour;
                 ssTimeStamp << setw(2) << setfill('0') << poTm->tm_min;
@@ -71,10 +73,8 @@ void cFileWriter::writeMessage( const cSeverity::teSeverity p_enSeverity, const 
 {
     if( p_enSeverity <= m_enMinSeverity )
     {
-        time_t     ttTime;
-        struct tm *poTm;
-        time( &ttTime );
-        poTm = localtime( &ttTime );
+        time_t     ttTime = time( NULL );
+        struct tm *poTm = localtime( &ttTime );
 
         m_ofLogFile << setw(2) << setfill('0') << poTm->tm_mday << ".";
         m_ofLogFile << setw(2) << setfill('0') << poTm->tm_mon + 1 << ".";

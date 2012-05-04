@@ -3,6 +3,7 @@
 
 #include <string>
 #include <sstream>
+#include <QString>
 
 #include "severity.h"
 
@@ -24,14 +25,17 @@ public:
     cLogMessage( const cSeverity::teSeverity p_enSev, cLogger *p_poLogger ) throw();
     ~cLogMessage();
 
-    cLogMessage &operator <<( const int p_inParam ) {
+    template<typename T>
+    cLogMessage &operator <<( const T p_inParam ) {
         m_ssMessage << p_inParam;
         return *this;
     }
-    cLogMessage &operator <<( const std::string p_stParam ) {
-        m_ssMessage << p_stParam;
+
+    cLogMessage &operator <<( const QString p_stParam ) {
+        m_ssMessage << p_stParam.toStdString();
         return *this;
     }
+
     cLogMessage &operator <<( const teLoggerManip p_enManip );
 
 private:

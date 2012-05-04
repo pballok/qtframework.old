@@ -28,8 +28,8 @@ protected:
     QString                    m_qsVersion;
     QString                    m_qsFileName;
 
-    virtual void               readSettings( const QSettings *m_poSettingsFile );
-    virtual void               writeSettings( const QSettings *m_poSettingsFile ) const;
+    virtual void               readSettings( QSettings *m_poSettingsFile ) = 0;
+    virtual void               writeSettings( QSettings *m_poSettingsFile ) const = 0;
 };
 
 #endif
