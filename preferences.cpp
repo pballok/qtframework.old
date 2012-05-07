@@ -1,56 +1,31 @@
 #include "preferences.h"
 
-cPreferences::cPreferences()
-{
-    m_qsAppName   = "";
-    m_qsVersion   = "";
-    m_qsFileName  = "";
+Preferences* Preferences::instance_ = NULL;
+
+Preferences::Preferences(const QString &app_name, const QString &version)
+    : app_name_(app_name), version_(version) {
+  file_name_ = QString("./%1.ini").arg(app_name_);
 }
 
-cPreferences::~cPreferences()
+void Preferences::load() throw(SevException)
 {
+  QSettings pref_file(file_name_, QSettings::IniFormat);
+  if (pref_file.status() != QSettings::NoError) {
+    throw SevException(Severity::WARNING,
+                QString("Failed to open preferences file: %1").arg(file_name_));
+  }
+
+  readSettings(&pref_file);
 }
 
-QString cPreferences::appName() const
+void Preferences::save() const throw(SevException)
 {
-    return m_qsAppName;
-}
+  QSettings pref_file(file_name_, QSettings::IniFormat);
+  if (pref_file.status() != QSettings::NoError) {
+    throw SevException(Severity::WARNING,
+            QString("Failed to write to preferences file: %1").arg(file_name_));
+  }
 
-void cPreferences::setAppName( const QString &p_qsAppName )
-{
-    m_qsAppName  = p_qsAppName;
-    m_qsFileName = QString( "./%1.ini" ).arg( p_qsAppName );
-}
-
-QString cPreferences::version() const
-{
-    return m_qsVersion;
-}
-
-void cPreferences::setVersion( const QString &p_qsVersion )
-{
-    m_qsVersion = p_qsVersion;
-}
-
-void cPreferences::load() throw(cSevException)
-{
-    QSettings obPrefFile( m_qsFileName, QSettings::IniFormat );
-    if( obPrefFile.status() != QSettings::NoError )
-    {
-        throw cSevException( cSeverity::WARNING, QString( "Failed to open preferences file: %1" ).arg( m_qsFileName ).toStdString() );
-    }
-
-    readSettings( &obPrefFile );
-}
-
-void cPreferences::save() const throw(cSevException)
-{
-    QSettings obPrefFile( m_qsFileName, QSettings::IniFormat );
-    if( obPrefFile.status() != QSettings::NoError )
-    {
-        throw cSevException( cSeverity::WARNING, QString( "Failed to write to preferences file: %1" ).arg( m_qsFileName ).toStdString() );
-    }
-
-    writeSettings( &obPrefFile );
+  writeSettings(&pref_file);
 }
 

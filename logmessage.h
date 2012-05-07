@@ -1,47 +1,39 @@
 #ifndef LOGMESSAGE_H
 #define LOGMESSAGE_H
 
-#include <string>
-#include <sstream>
 #include <QString>
+#include <QTextStream>
 
 #include "severity.h"
 
-class cLogger;
-
-class cLogMessage
+class LogMessage
 {
-public:
-    enum teLoggerManip
-    {
-        MIN = 0,
-        EOM,
-        CLEAR,
-        MAX
-    };
+ public:
+  enum LoggerManip
+  {
+    MIN = 0,
+    EOM,
+    CLEAR,
+    MAX
+  };
 
-    cLogMessage();
-    cLogMessage( const cLogMessage &p_obOrigMessage );
-    cLogMessage( const cSeverity::teSeverity p_enSev, cLogger *p_poLogger ) throw();
-    ~cLogMessage();
+  LogMessage();
+  LogMessage(const Severity::SeverityType severity);
+  LogMessage(const LogMessage& orig_message);
+  ~LogMessage();
 
-    template<typename T>
-    cLogMessage &operator <<( const T p_inParam ) {
-        m_ssMessage << p_inParam;
-        return *this;
-    }
+  template<typename T>
+  LogMessage& operator<<(const T param) {
+    message_stream_ << param;
+    return *this;
+  }
 
-    cLogMessage &operator <<( const QString p_stParam ) {
-        m_ssMessage << p_stParam.toStdString();
-        return *this;
-    }
+  LogMessage &operator<<(const LoggerManip manipulator);
 
-    cLogMessage &operator <<( const teLoggerManip p_enManip );
-
-private:
-    cSeverity::teSeverity  m_enSeverity;
-    cLogger               *m_poLogger;
-    std::stringstream      m_ssMessage;
+ private:
+  Severity::SeverityType severity_;
+  QString                message_;
+  QTextStream            message_stream_;
 };
 
 #endif // LOGMESSAGE_H

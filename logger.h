@@ -1,43 +1,42 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <vector>
-#include <string>
+#include <QString>
+#include <QList>
 
-#include "logwriter.h"
-#include "logmessage.h"
 #include "severity.h"
 #include "sevexception.h"
-#include "singleton.h"
+#include "logmessage.h"
 
-class cLogger
+class LogWriter;
+
+class Logger
 {
-public:
-    inline explicit cLogger() throw() {}
-    inline ~cLogger() throw() {}
+ public:
+  static Logger& instance();
+  static void destroy();
+  
+  void  registerWriter(LogWriter* const writer);
 
-    void  registerWriter( cLogWriter* p_poWriter ) throw();
-    void  writeMessage( const cSeverity::teSeverity p_enSeverity,
-                        const std::string &p_stMessage );
+  void  writeMessage(const Severity::SeverityType severity,
+                     const QString& message ) const;
 
-    inline cLogMessage operator <<( const cSeverity::teSeverity p_enSev )
-    {
-        return cLogMessage( p_enSev, this );
-    }
+  inline LogMessage operator<<(const Severity::SeverityType severity) const {
+    return LogMessage(severity);
+  }
 
-    inline cLogger& operator <<( const cSevException &p_obException )
-    {
-        writeMessage( p_obException.severity(), p_obException.what() );
-        return *this;
-    }
+  inline Logger& operator<<(const SevException& exception) {
+    writeMessage(exception.severity(), exception.what());
+    return *this;
+  }
 
-private:
-    typedef std::vector<cLogWriter*>   tvWriters;
-    typedef tvWriters::const_iterator  tiWriters;
+ private:
+  Logger() {}
+  Logger(Logger const&) {}
+  Logger& operator=(Logger const&) {return *this;}
 
-    tvWriters    m_veWriters;
+  static Logger*     instance_;
+  QList<LogWriter*>  writers_;
 };
-
-typedef cSingleton<cLogger> tgLogger;
 
 #endif

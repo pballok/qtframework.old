@@ -3,23 +3,33 @@
 
 #include <exception>
 #include <string>
+#include <QString>
 
 #include "severity.h"
 
-class cSevException : public std::exception
+class SevException : public std::exception
 {
-public:
-    cSevException( const cSeverity::teSeverity  p_enSev,
-                   const std::string           &p_stMsg ) throw ()
-        : m_enSeverity( p_enSev ), m_stMsg( p_stMsg ) { }
-    virtual ~cSevException() throw() { }
+ public:
+  SevException(const Severity::SeverityType severity,
+               const std::string& message)
+    : severity_(severity), message_(message) {}
 
-    cSeverity::teSeverity severity() const throw() { return m_enSeverity; }
-    virtual const char* what() const throw() { return m_stMsg.c_str(); }
+  SevException(const Severity::SeverityType severity, const QString& message)
+    : severity_(severity), message_(message.toStdString()) {}
+
+  virtual ~SevException() throw() {}
+
+  Severity::SeverityType severity() const throw() {
+    return severity_;
+  }
+
+  virtual const char* what() const throw() {
+    return message_.c_str();
+  }
 
 private:
-    cSeverity::teSeverity  m_enSeverity;
-    std::string            m_stMsg;
+    Severity::SeverityType severity_;
+    std::string            message_;
 };
 
 #endif

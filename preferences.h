@@ -4,32 +4,38 @@
 #include <QString>
 #include <QSettings>
 
-#include <guiwriter.h>
-#include <filewriter.h>
 #include <sevexception.h>
 
-class cPreferences
+class Preferences
 {
-public:
-    cPreferences();
-    ~cPreferences();
+ public:
+  static Preferences* instance();
 
-    QString                    appName() const;
-    void                       setAppName( const QString &p_qsAppName );
-    QString                    version() const;
-    void                       setVersion( const QString &p_qsVersion );
+  inline QString app_name() const {
+    return app_name_;
+  }
 
-    void                       load() throw(cSevException);
-    void                       save() const throw(cSevException);
+  inline QString version() const {
+    return version_;
+  }
 
-protected:
+  void load() throw(SevException);
+  void save() const throw(SevException);
 
-    QString                    m_qsAppName;
-    QString                    m_qsVersion;
-    QString                    m_qsFileName;
+ protected:
+  Preferences(const QString &app_name, const QString &version);
 
-    virtual void               readSettings( QSettings *m_poSettingsFile ) = 0;
-    virtual void               writeSettings( QSettings *m_poSettingsFile ) const = 0;
+  virtual ~Preferences() {}
+
+  virtual void   readSettings(QSettings *settings_file) = 0;
+  virtual void   writeSettings(QSettings *settings_file) const = 0;
+
+  static Preferences* instance_;
+
+ private:
+  QString app_name_;
+  QString version_;
+  QString file_name_;
 };
 
 #endif

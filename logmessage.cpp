@@ -1,46 +1,34 @@
-#include <string>
-
 #include "logmessage.h"
 #include "logger.h"
 
-using namespace std;
-
-cLogMessage::cLogMessage()
-{
-    m_enSeverity = cSeverity::MIN;
+LogMessage::LogMessage() : severity_(Severity::MIN), message_("") {
+  message_stream_.setString(&message_);
 }
 
-
-cLogMessage::cLogMessage( const cLogMessage &p_obOrigMessage )
-{
-    m_enSeverity = p_obOrigMessage.m_enSeverity;
-    m_poLogger   = p_obOrigMessage.m_poLogger;
-    m_ssMessage << p_obOrigMessage.m_ssMessage.rdbuf();
+LogMessage::LogMessage(const Severity::SeverityType severity)
+  : severity_(severity), message_("") {
+  message_stream_.setString(&message_);
 }
 
-cLogMessage::cLogMessage( const cSeverity::teSeverity p_enSev, cLogger *p_poLogger ) throw()
-    : m_enSeverity( p_enSev ),
-      m_poLogger( p_poLogger )
-{
+LogMessage::LogMessage(const LogMessage& orig_message) {
+  severity_ = orig_message.severity_;
+  message_ = orig_message.message_;
+  message_stream_.setString(&message_);
 }
 
-cLogMessage::~cLogMessage()
-{
-    string stMsg( m_ssMessage.str() );
-    if( stMsg != "" ) m_poLogger->writeMessage( m_enSeverity, stMsg );
+LogMessage::~LogMessage() {
+  if (message_ != "") Logger::instance().writeMessage(severity_, message_);
 }
 
-cLogMessage &cLogMessage::operator <<( const teLoggerManip p_enManip ) {
-    switch( p_enManip )
-    {
-        case EOM:
-            m_poLogger->writeMessage( m_enSeverity, m_ssMessage.str() );
-            // There's no 'break' here because the EOM manipulator
-            // needs to do a 'CLEAR' as well
-        case CLEAR:
-            m_ssMessage.str( "" );
-            break;
-        default: ;
-    }
-    return *this;
+LogMessage& LogMessage::operator<<(const LoggerManip manipulator) {
+  switch (manipulator) {
+    case EOM:   Logger::instance().writeMessage(severity_, message_);
+                // There's no 'break' here because the EOM manipulator
+                // needs to do a 'CLEAR' as well
+    case CLEAR: message_="";
+                break;
+    default: ;
+  }
+
+  return *this;
 }

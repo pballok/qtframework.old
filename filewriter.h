@@ -1,32 +1,38 @@
 #ifndef FILEWRITER_H
 #define FILEWRITER_H
 
-#include <string>
-#include <fstream>
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+
 #include "logwriter.h"
+#include "severity.h"
 
-class cFileWriter : public cLogWriter
+class FileWriter : public LogWriter
 {
-public:
-    enum teFileMode
-    {
-        MIN = 0,
-        BACKUP,
-        OVERWRITE,
-        APPEND,
-        MAX
-    };
+ public:
+  enum FileMode
+  {
+    MIN = 0,
+    BACKUP,
+    OVERWRITE,
+    APPEND,
+    MAX
+  };
 
-    cFileWriter() throw();
-    cFileWriter( cSeverity::teSeverity p_enSev, const std::string p_stFileName,
-                 const teFileMode p_enMode = APPEND ) throw();
-    virtual ~cFileWriter() throw();
+  FileWriter(const Severity::SeverityType severity,
+             const QString& file_name,
+             const FileMode file_mode = APPEND);
+  virtual ~FileWriter();
 
-    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity,
-                               const std::string &p_stMessage ) throw();
+  virtual void writeMessage(const Severity::SeverityType severity,
+                            const QString& message ) throw();
 
-private:
-    std::ofstream m_ofLogFile;
+ private:
+  FileWriter() {}
+
+  QFile log_file_;
+  QTextStream log_stream_;
 };
 
 #endif // FILEWRITER_H
