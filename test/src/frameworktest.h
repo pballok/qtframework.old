@@ -9,7 +9,7 @@ class FrameworkTest : public QObject {
 
  private slots:
   void fileLogger();
-  void guiLogger();
+  void preferences();
 };
 
 #endif

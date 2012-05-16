@@ -6,14 +6,13 @@ Logger* Logger::instance_ = NULL;
 Logger& Logger::instance() {
   if (!instance_) {
     instance_ = new Logger();
-    atexit( Logger::destroy );
+    atexit(Logger::destroy);
   }
 
   return *instance_;
 }
 
-void Logger::destroy()
-{
+void Logger::destroy() {
   if (instance_) {
     delete instance_;
     instance_ = NULL;

@@ -8,13 +8,13 @@
 
 #include <logger.h>
 #include <filewriter.h>
+#include "testpreferences.h"
 
 #include "frameworktest.h"
 
 using namespace std;
 
-void FrameworkTest::fileLogger()
-{
+void FrameworkTest::fileLogger() {
   QString file_name_1 = "writertest_1.log";
   QFile log_file_1(file_name_1);
   QVERIFY(log_file_1.open(QIODevice::Truncate | QIODevice::WriteOnly
@@ -95,10 +95,27 @@ void FrameworkTest::fileLogger()
   QVERIFY(!contents_4.contains("INFO Message 01"));
   QVERIFY(!contents_4.contains("DEBUG Message 02"));
   QVERIFY(!contents_4.contains("ERROR Message 03"));
-
-  Logger::destroy();
 }
 
-void FrameworkTest::guiLogger()
-{
+void FrameworkTest::preferences() {
+  QString file_name="test.ini";
+  QFile settings_file(file_name);
+  QFile::remove(file_name);
+
+  TestPreferences::instance().set_app_name("test");
+  TestPreferences::instance().set_version("1.0");
+  TestPreferences::instance().set_value(5);
+  QCOMPARE(TestPreferences::instance().app_name(), QString("test"));
+  QCOMPARE(TestPreferences::instance().version(), QString("1.0"));
+  QCOMPARE(TestPreferences::instance().value(), 5);
+
+  TestPreferences::instance().save();
+  QString contents=settings_file.readAll();
+  QVERIFY(contents.contains("Value=5"));
+
+  TestPreferences::instance().set_value(6);
+  QCOMPARE(TestPreferences::instance().value(), 6);
+  TestPreferences::instance().save();
+  contents=settings_file.readAll();
+  QVERIFY(contents.contains("Value=6"));
 }

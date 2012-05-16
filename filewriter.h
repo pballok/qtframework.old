@@ -28,10 +28,11 @@ class FileWriter : public LogWriter
   virtual void writeMessage(const Severity::SeverityType severity,
                             const QString& message ) throw();
 
- private:
-  FileWriter() {}
+ protected:
+  FileWriter() : LogWriter() {}
 
-  QFile log_file_;
+ private:
+  QFile       log_file_;
   QTextStream log_stream_;
 };
 

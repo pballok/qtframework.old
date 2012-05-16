@@ -8,10 +8,6 @@
 class LogWriter
 {
  public:
-  LogWriter() {
-    min_severity_ = Severity::NONE;
-  }
-
   LogWriter(Severity::SeverityType severity) {
     min_severity_ = severity;
   }
@@ -29,7 +25,11 @@ class LogWriter
                             const QString& message) = 0;
 
 protected:
-    Severity::SeverityType  min_severity_;
+  LogWriter() {
+    min_severity_ = Severity::NONE;
+  }
+
+  Severity::SeverityType  min_severity_;
 };
 
 #endif

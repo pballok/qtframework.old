@@ -9,28 +9,33 @@
 class Preferences
 {
  public:
-  static Preferences* instance();
-
   inline QString app_name() const {
     return app_name_;
+  }
+
+  inline void set_app_name(const QString& app_name) {
+    app_name_ = app_name;
   }
 
   inline QString version() const {
     return version_;
   }
 
+  inline void set_version(const QString& version) {
+    version_ = version;
+  }
+
   void load() throw(SevException);
   void save() const throw(SevException);
 
  protected:
-  Preferences(const QString &app_name, const QString &version);
-
+  Preferences() : app_name_(""), version_(""), file_name_("") {}
+  Preferences(Preferences const&) {}
+  Preferences& operator=(Preferences const&) {return *this;}
   virtual ~Preferences() {}
 
-  virtual void   readSettings(QSettings *settings_file) = 0;
-  virtual void   writeSettings(QSettings *settings_file) const = 0;
-
-  static Preferences* instance_;
+  virtual void readSettings(const QSettings* const settings_file) = 0;
+  virtual void writeSettings(QSettings* const settings_file) const = 0;
 
  private:
   QString app_name_;
