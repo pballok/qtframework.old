@@ -1,5 +1,3 @@
-#include <string>
-
 #include <QFile>
 #include <QDir>
 #include <QString>
@@ -98,24 +96,32 @@ void FrameworkTest::fileLogger() {
 }
 
 void FrameworkTest::preferences() {
+  QString app_name="test";
+  QString version="1.0";
   QString file_name="test.ini";
   QFile settings_file(file_name);
+
   QFile::remove(file_name);
 
-  TestPreferences::instance().set_app_name("test");
-  TestPreferences::instance().set_version("1.0");
+  TestPreferences::instance().set_app_name(app_name);
+  TestPreferences::instance().set_version(version);
   TestPreferences::instance().set_value(5);
-  QCOMPARE(TestPreferences::instance().app_name(), QString("test"));
-  QCOMPARE(TestPreferences::instance().version(), QString("1.0"));
+  QCOMPARE(TestPreferences::instance().app_name(), app_name);
+  QCOMPARE(TestPreferences::instance().file_name(), file_name);
+  QCOMPARE(TestPreferences::instance().version(), version);
   QCOMPARE(TestPreferences::instance().value(), 5);
 
   TestPreferences::instance().save();
+  QVERIFY(settings_file.exists());
+  QVERIFY(settings_file.open(QIODevice::ReadOnly | QIODevice::Text));
   QString contents=settings_file.readAll();
   QVERIFY(contents.contains("Value=5"));
 
+  settings_file.close();
   TestPreferences::instance().set_value(6);
   QCOMPARE(TestPreferences::instance().value(), 6);
   TestPreferences::instance().save();
+  QVERIFY(settings_file.open(QIODevice::ReadOnly | QIODevice::Text));
   contents=settings_file.readAll();
   QVERIFY(contents.contains("Value=6"));
 }

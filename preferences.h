@@ -6,8 +6,7 @@
 
 #include <sevexception.h>
 
-class Preferences
-{
+class Preferences {
  public:
   inline QString app_name() const {
     return app_name_;
@@ -15,6 +14,7 @@ class Preferences
 
   inline void set_app_name(const QString& app_name) {
     app_name_ = app_name;
+    file_name_ = QString("%1.ini").arg(app_name);
   }
 
   inline QString version() const {
@@ -23,6 +23,10 @@ class Preferences
 
   inline void set_version(const QString& version) {
     version_ = version;
+  }
+
+  inline QString file_name() const {
+    return file_name_;
   }
 
   void load() throw(SevException);

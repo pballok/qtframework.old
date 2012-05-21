@@ -7,8 +7,7 @@
 
 #include "severity.h"
 
-class SevException : public std::exception
-{
+class SevException : public std::exception {
  public:
   SevException(const Severity::SeverityType severity,
                const std::string& message)

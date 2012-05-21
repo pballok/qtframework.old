@@ -1,11 +1,9 @@
 #ifndef SEVERITY_H
 #define SEVERITY_H
 
-class Severity
-{
+class Severity {
  public:
-  enum SeverityType
-  {
+  enum SeverityType {
     MIN = 0,
     NONE,
     ERROR,

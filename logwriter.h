@@ -5,8 +5,7 @@
 
 #include "severity.h"
 
-class LogWriter
-{
+class LogWriter {
  public:
   LogWriter(Severity::SeverityType severity) {
     min_severity_ = severity;

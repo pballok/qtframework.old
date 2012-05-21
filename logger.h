@@ -10,8 +10,7 @@
 
 class LogWriter;
 
-class Logger
-{
+class Logger {
  public:
   static Logger& instance();
   static void destroy();

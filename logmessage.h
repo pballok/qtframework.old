@@ -6,11 +6,9 @@
 
 #include "severity.h"
 
-class LogMessage
-{
+class LogMessage {
  public:
-  enum LoggerManip
-  {
+  enum LoggerManip {
     MIN = 0,
     EOM,
     CLEAR,

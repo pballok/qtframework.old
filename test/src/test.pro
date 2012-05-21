@@ -4,7 +4,8 @@ TARGET       = test
 TEMPLATE     = app
 INCLUDEPATH += ../..
 
-SOURCES     += ../../filewriter.cpp \
+SOURCES     += ../../consolewriter.cpp \
+               ../../filewriter.cpp \
                ../../guiwriter.cpp \
                ../../logger.cpp \
                ../../logmessage.cpp \
@@ -13,7 +14,8 @@ SOURCES     += ../../filewriter.cpp \
                frameworktest.cpp \
                testpreferences.cpp
 
-HEADERS     += ../../filewriter.h \
+HEADERS     += ../../consolewriter.h \
+               ../../filewriter.h \
                ../../guiwriter.h \
                ../../logger.h \
                ../../logmessage.h \

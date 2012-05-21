@@ -8,11 +8,9 @@
 #include "logwriter.h"
 #include "severity.h"
 
-class FileWriter : public LogWriter
-{
+class FileWriter : public LogWriter {
  public:
-  enum FileMode
-  {
+  enum FileMode {
     MIN = 0,
     BACKUP,
     OVERWRITE,

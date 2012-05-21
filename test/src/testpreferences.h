@@ -5,8 +5,7 @@
 
 #include <preferences.h>
 
-class TestPreferences : public Preferences
-{
+class TestPreferences : public Preferences {
  public:
   static TestPreferences& instance();
   static void destroy();

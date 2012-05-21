@@ -6,8 +6,7 @@
 
 #include "logwriter.h"
 
-class GUIWriter : public LogWriter
-{
+class GUIWriter : public LogWriter {
  public:
   GUIWriter(Severity::SeverityType severity, QWidget* parent = 0);
   virtual ~GUIWriter();
