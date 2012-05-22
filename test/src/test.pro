@@ -10,6 +10,7 @@ SOURCES     += ../../consolewriter.cpp \
                ../../logger.cpp \
                ../../logmessage.cpp \
                ../../preferences.cpp \
+               ../../thedb.cpp \
                main.cpp \
                frameworktest.cpp \
                testpreferences.cpp
@@ -23,6 +24,7 @@ HEADERS     += ../../consolewriter.h \
                ../../preferences.h \
                ../../severity.h \
                ../../sevexception.h \
+               ../../thedb.h \
                frameworktest.h \
                testpreferences.h
 
