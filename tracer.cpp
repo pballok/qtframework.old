@@ -2,30 +2,25 @@
 #include "tracer.h"
 #include "logger.h"
 
-using namespace std;
+unsigned int Tracer::indent_ = 0;
 
-unsigned int cTracer::m_uiIndent = 0;
+Tracer::Tracer(const QString& func_name, const QString& params)
+    : func_name_(func_name) {
+  QString message( indent_++, ' ');
+  message += func_name;
+  message += "(";
+  message += params;
+  message += ") >";
 
-cTracer::cTracer( const string &p_stFuncName,
-                  const string &p_stInParams )
-        : m_stFuncName( p_stFuncName )
-{
-    string  stMessage( m_uiIndent++, ' ');
-    stMessage += p_stFuncName;
-    stMessage += "( ";
-    stMessage += p_stInParams;
-    stMessage += " ) >";
-
-    tgLogger::instance().writeMessage( cSeverity::DEBUG, stMessage );
+  Logger::instance().writeMessage(Severity::DEBUG, message);
 }
 
-cTracer::~cTracer()
-{
-    string stMessage( --m_uiIndent, ' ' );
-    stMessage += m_stFuncName;
-    stMessage += "( ";
-    stMessage += m_ssOutParams.str();
-    stMessage += " ) <";
+Tracer::~Tracer() {
+  QString message(--indent_, ' ');
+  message += func_name_;
+  message += "(";
+  message += param_stream_.string();
+  message += ") <";
 
-    tgLogger::instance().writeMessage( cSeverity::DEBUG, stMessage );
+  Logger::instance().writeMessage(Severity::DEBUG, message);
 }
