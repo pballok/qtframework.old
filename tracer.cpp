@@ -5,7 +5,9 @@
 unsigned int Tracer::indent_ = 0;
 
 Tracer::Tracer(const QString& func_name, const QString& params)
-    : func_name_(func_name) {
+    : func_name_(func_name), out_param_("") {
+  param_stream_.setString(&out_param_);
+
   QString message( indent_++, ' ');
   message += func_name;
   message += "(";
@@ -19,7 +21,7 @@ Tracer::~Tracer() {
   QString message(--indent_, ' ');
   message += func_name_;
   message += "(";
-  message += param_stream_.string();
+  message += out_param_;
   message += ") <";
 
   Logger::instance().writeMessage(Severity::DEBUG, message);

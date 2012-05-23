@@ -3,11 +3,13 @@
 #include <QString>
 #include <QTextStream>
 #include <QStringList>
+#include <QSqlDatabase>
 
 #include <logger.h>
 #include <filewriter.h>
-#include "testpreferences.h"
+#include <loggedquery.h>
 
+#include "testpreferences.h"
 #include "frameworktest.h"
 
 using namespace std;
@@ -93,6 +95,8 @@ void FrameworkTest::fileLogger() {
   QVERIFY(!contents_4.contains("INFO Message 01"));
   QVERIFY(!contents_4.contains("DEBUG Message 02"));
   QVERIFY(!contents_4.contains("ERROR Message 03"));
+
+  Logger::destroy();
 }
 
 void FrameworkTest::preferences() {
@@ -124,4 +128,45 @@ void FrameworkTest::preferences() {
   QVERIFY(settings_file.open(QIODevice::ReadOnly | QIODevice::Text));
   contents=settings_file.readAll();
   QVERIFY(contents.contains("Value=6"));
+}
+
+void FrameworkTest::loggedquery() {
+  QString file_name = "test.log";
+  QFile log_file(file_name);
+  FileWriter log_writer(Severity::DEBUG, file_name, FileWriter::OVERWRITE);
+  Logger::instance().registerWriter(&log_writer);
+
+  QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+  db.setHostName("localhost");
+  db.setDatabaseName("framework_test");
+  db.setUserName("framework_test");
+  db.setPassword("framework_test");
+  QVERIFY(db.open());
+
+  QString query_string_1 = "SELECT * FROM test";
+  LoggedQuery query_1;
+  QVERIFY(query_1.exec(query_string_1));
+  QCOMPARE(query_1.size(),3);
+
+  QString query_string_2 = "SELECT * FROM test WHERE column_3=\"Message_2\"";
+  LoggedQuery query_2(query_string_2);
+  QCOMPARE(query_2.size(),1);
+
+  QString query_string_3 = "SELECT * FROM test2";
+  LoggedQuery query_3;
+  QVERIFY(!query_3.exec(query_string_3));
+  QCOMPARE(query_3.size(),-1);
+
+  QVERIFY(log_file.exists());
+  QVERIFY(log_file.open(QIODevice::ReadOnly | QIODevice::Text));
+  QString contents = log_file.readAll();
+  QVERIFY(!contents.isEmpty());
+  QVERIFY(contents.contains(query_string_1));
+  QVERIFY(contents.contains("Returned rows: 3"));
+  QVERIFY(contents.contains(query_string_2));
+  QVERIFY(contents.contains("Returned rows: 1"));
+  QVERIFY(contents.contains(query_string_3));
+  QVERIFY(contents.contains("MySQL returned with error"));
+
+  Logger::destroy();
 }

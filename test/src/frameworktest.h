@@ -10,6 +10,7 @@ class FrameworkTest : public QObject {
  private slots:
   void fileLogger();
   void preferences();
+  void loggedquery();
 };
 
 #endif

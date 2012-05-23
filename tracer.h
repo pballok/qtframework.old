@@ -19,6 +19,7 @@ public:
 
 private:
   QString func_name_;
+  QString out_param_;
   QTextStream param_stream_;
 };
 
