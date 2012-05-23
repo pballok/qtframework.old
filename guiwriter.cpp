@@ -2,30 +2,34 @@
 
 #include "guiwriter.h"
 
-cGUIWriter::cGUIWriter() throw() : cLogWriter()
-{
+GUIWriter::GUIWriter(Severity::SeverityType severity, QWidget* parent)
+    : LogWriter( severity ) {
+  parent_ = parent;
 }
 
-cGUIWriter::cGUIWriter( cSeverity::teSeverity p_enSev, QWidget* p_poParent ) throw() : cLogWriter( p_enSev )
-{
-    m_poParent = p_poParent;
+GUIWriter::~GUIWriter() {
 }
 
-cGUIWriter::~cGUIWriter() throw()
-{
-}
-
-void cGUIWriter::writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw()
-{
-    if( p_enSeverity <= m_enMinSeverity )
-    {
-        switch( p_enSeverity )
-        {
-            case cSeverity::DEBUG:   QMessageBox::information( m_poParent, "Debug Message", QString::fromStdString( p_stMessage ) ); break;
-            case cSeverity::INFO:    QMessageBox::information( m_poParent, "Information", QString::fromStdString( p_stMessage ) ); break;
-            case cSeverity::WARNING: QMessageBox::warning( m_poParent, "Warning", QString::fromStdString( p_stMessage ) ); break;
-            case cSeverity::ERROR:   QMessageBox::critical( m_poParent, "Error", QString::fromStdString( p_stMessage ) ); break;
-            default: QMessageBox::critical( m_poParent, "Error", QString( "Invalid severity (%1) with message \"%2\"" ).arg( (int)p_enSeverity ).arg( QString::fromStdString( p_stMessage ) ) ); break;
-        }
+void GUIWriter::writeMessage(const Severity::SeverityType severity,
+                             const QString& message ) throw() {
+  if (severity <= min_severity_) {
+    switch (severity) {
+      case Severity::DEBUG:
+        QMessageBox::information(parent_, "Debug Message", message);
+        break;
+      case Severity::INFO:
+        QMessageBox::information(parent_, "Information", message);
+        break;
+      case Severity::WARNING:
+        QMessageBox::warning(parent_, "Warning", message);
+        break;
+      case Severity::ERROR:
+        QMessageBox::critical(parent_, "Error", message);
+        break;
+      default:
+        QString err_msg =
+            QString("Invalid severity (%1) with message \"%2\"").arg(Severity::toStr(severity)).arg(message);
+        QMessageBox::critical(parent_, "Error", err_msg);
     }
+  }
 }

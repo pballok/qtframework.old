@@ -1,24 +1,34 @@
 #ifndef LOGWRITER_H
 #define LOGWRITER_H
 
-#include <string>
+#include <QString>
 
 #include "severity.h"
 
-class cLogWriter
-{
-public:
-    cLogWriter() throw() { m_enMinSeverity = cSeverity::NONE; }
-    cLogWriter( cSeverity::teSeverity p_enSev ) { m_enMinSeverity = p_enSev; }
-    virtual ~cLogWriter() throw() { }
+class LogWriter {
+ public:
+  LogWriter(Severity::SeverityType severity) {
+    min_severity_ = severity;
+  }
+  virtual ~LogWriter() {}
 
-    cSeverity::teSeverity  minSeverity() const throw() { return m_enMinSeverity; }
-    void                   setMinSeverity( const cSeverity::teSeverity p_enSev ) { m_enMinSeverity = p_enSev; }
+  Severity::SeverityType min_severity() const {
+    return min_severity_;
+  }
 
-    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw() = 0;
+  void set_min_severity(const Severity::SeverityType severity) {
+    min_severity_ = severity;
+  }
+
+  virtual void writeMessage(const Severity::SeverityType severity,
+                            const QString& message) = 0;
 
 protected:
-    cSeverity::teSeverity  m_enMinSeverity;
+  LogWriter() {
+    min_severity_ = Severity::NONE;
+  }
+
+  Severity::SeverityType  min_severity_;
 };
 
 #endif

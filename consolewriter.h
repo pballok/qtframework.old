@@ -3,14 +3,16 @@
 
 #include "logwriter.h"
 
-class cConsoleWriter : public cLogWriter
-{
-public:
-    cConsoleWriter() throw();
-    cConsoleWriter( cSeverity::teSeverity p_enSev ) throw();
-    virtual ~cConsoleWriter() throw();
+class ConsoleWriter : public LogWriter {
+ public:
+  ConsoleWriter(const Severity::SeverityType severity) : LogWriter(severity) {}
+  virtual ~ConsoleWriter() {}
 
-    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw();
+  virtual void writeMessage(const Severity::SeverityType severity,
+                            const QString& message ) throw();
+
+ protected:
+  ConsoleWriter() {}
 };
 
 #endif

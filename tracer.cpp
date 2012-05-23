@@ -1,32 +1,28 @@
 #include "severity.h"
 #include "tracer.h"
+#include "logger.h"
 
-using namespace std;
+unsigned int Tracer::indent_ = 0;
 
-unsigned int cTracer::m_uiIndent = 0;
+Tracer::Tracer(const QString& func_name, const QString& params)
+    : func_name_(func_name), out_param_("") {
+  param_stream_.setString(&out_param_);
 
-cTracer::cTracer( cLogger* p_poLogger,
-                  const string &p_stFuncName,
-                  const string &p_stInParams )
-        : m_poLogger( p_poLogger ),
-          m_stFuncName( p_stFuncName )
-{
-    string  stMessage( m_uiIndent++, ' ');
-    stMessage += p_stFuncName;
-    stMessage += "( ";
-    stMessage += p_stInParams;
-    stMessage += " ) >";
+  QString message( indent_++, ' ');
+  message += func_name;
+  message += "(";
+  message += params;
+  message += ") >";
 
-    m_poLogger->writeMessage( cSeverity::DEBUG, stMessage );
+  Logger::instance().writeMessage(Severity::DEBUG, message);
 }
 
-cTracer::~cTracer()
-{
-    string stMessage( --m_uiIndent, ' ' );
-    stMessage += m_stFuncName;
-    stMessage += "( ";
-    stMessage += m_ssOutParams.str();
-    stMessage += " ) <";
+Tracer::~Tracer() {
+  QString message(--indent_, ' ');
+  message += func_name_;
+  message += "(";
+  message += out_param_;
+  message += ") <";
 
-    m_poLogger->writeMessage( cSeverity::DEBUG, stMessage );
+  Logger::instance().writeMessage(Severity::DEBUG, message);
 }

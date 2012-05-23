@@ -2,20 +2,23 @@
 #define GUIWRITER_H
 
 #include <QWidget>
+#include <QString>
 
 #include "logwriter.h"
 
-class cGUIWriter : public cLogWriter
-{
-public:
-    cGUIWriter() throw();
-    cGUIWriter( cSeverity::teSeverity p_enSev, QWidget* p_poParent = 0 ) throw();
-    virtual ~cGUIWriter() throw();
+class GUIWriter : public LogWriter {
+ public:
+  GUIWriter(Severity::SeverityType severity, QWidget* parent = 0);
+  virtual ~GUIWriter();
 
-    virtual void writeMessage( const cSeverity::teSeverity p_enSeverity, const std::string &p_stMessage ) throw();
+  virtual void writeMessage(const Severity::SeverityType severity,
+                            const QString& message ) throw();
 
-private:
-    QWidget*  m_poParent;
+ protected:
+  GUIWriter() : LogWriter() {}
+
+ private:
+  QWidget*  parent_;
 };
 
 #endif // GUIWRITER_H

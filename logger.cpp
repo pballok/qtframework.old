@@ -1,24 +1,33 @@
 #include "logger.h"
+#include "logwriter.h"
 
-using namespace std;
+Logger* Logger::instance_ = NULL;
 
-cLogger::cLogger() throw()
-{
+Logger& Logger::instance() {
+  if (!instance_) {
+    instance_ = new Logger();
+    atexit(Logger::destroy);
+  }
+
+  return *instance_;
 }
 
-cLogger::~cLogger() throw()
-{
+void Logger::destroy() {
+  if (instance_) {
+    delete instance_;
+    instance_ = NULL;
+  }
 }
 
-void cLogger::registerWriter( cLogWriter* p_poWriter ) throw()
-{
-    m_veWriters.push_back( p_poWriter );
+void Logger::registerWriter(LogWriter* const writer) {
+  writers_.append(writer);
 }
 
-void cLogger::writeMessage( const cSeverity::teSeverity p_enSeverity, const string &p_stMessage )
-{
-    for( tiWriters  itWriters = m_veWriters.begin(); itWriters != m_veWriters.end(); itWriters++ )
-    {
-        (*itWriters)->writeMessage( p_enSeverity, p_stMessage );
-    }
+void Logger::writeMessage(const Severity::SeverityType severity,
+                          const QString& message) const {
+  for( QList<LogWriter*>::const_iterator it = writers_.begin();
+       it != writers_.end();
+       ++it ) {
+    (*it)->writeMessage(severity, message);
+  }
 }
