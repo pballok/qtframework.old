@@ -1,5 +1,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlRecord>
+#include <QSqlField>
 
 #include <tracer.h>
 #include <logger.h>
@@ -53,4 +55,19 @@ bool DBRow::load(const unsigned int id) {
   }
 
   return res;
+}
+
+QStringList DBRow::columnList() const
+{
+  Tracer tracer("DBRow::columnList",
+                QString("table: %1").arg(model_.tableName()));
+
+  QStringList columns;
+
+  QSqlRecord  empty_record = model_.record();
+  for (int i = 0; i < empty_record.count(); i++) {
+    columns.append(empty_record.field(i).name());
+  }
+
+  return columns;
 }

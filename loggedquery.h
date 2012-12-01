@@ -12,7 +12,7 @@ class LoggedQuery : public QSqlQuery {
   LoggedQuery(QSqlResult* result) : QSqlQuery(result) {}
   LoggedQuery(const QString& query = QString(),
               QSqlDatabase db = QSqlDatabase()) : QSqlQuery(query, db) {
-    logQuery(isActive());
+    logQuery();
   }
 
   LoggedQuery(QSqlDatabase db) : QSqlQuery(db) {}
@@ -23,7 +23,7 @@ class LoggedQuery : public QSqlQuery {
   bool exec();
 
  protected:
-  void logQuery(bool success) const;
+  void logQuery() const;
 };
 
 #endif

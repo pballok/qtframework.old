@@ -14,26 +14,30 @@ class Preferences {
 
   inline void set_app_name(const QString& app_name) {
     app_name_ = app_name;
-    file_name_ = QString("%1.ini").arg(app_name);
+    settings_file_name_ = QString("%1.ini").arg(app_name);
   }
 
-  inline QString version() const {
-    return version_;
+  inline QString app_version() const {
+    return app_version_;
   }
 
-  inline void set_version(const QString& version) {
-    version_ = version;
+  inline void set_app_version(const QString& version) {
+    app_version_ = version;
   }
 
-  inline QString file_name() const {
-    return file_name_;
+  inline QString framework_version() const {
+    return framework_version_;
+  }
+
+  inline QString settings_file_name() const {
+    return settings_file_name_;
   }
 
   void load() throw(SevException);
   void save() const throw(SevException);
 
  protected:
-  Preferences() : app_name_(""), version_(""), file_name_("") {}
+  Preferences() : app_name_(""), app_version_(""), framework_version_("1.0"), settings_file_name_("") {}
   Preferences(Preferences const&) {}
   Preferences& operator=(Preferences const&) {return *this;}
   virtual ~Preferences() {}
@@ -43,8 +47,9 @@ class Preferences {
 
  private:
   QString app_name_;
-  QString version_;
-  QString file_name_;
+  QString app_version_;
+  QString framework_version_;
+  QString settings_file_name_;
 };
 
 #endif

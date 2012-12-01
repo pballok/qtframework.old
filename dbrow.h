@@ -4,6 +4,7 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 class DBRow {
@@ -14,6 +15,7 @@ class DBRow {
 
   void createNew();
   bool load(const unsigned int id);
+  QStringList columnList() const;
 
  protected:
   QVariant value(const QString& column);

@@ -6,28 +6,30 @@
 #include "loggedquery.h"
 
 bool LoggedQuery::exec(const QString& query) {
+  if (isActive())
+    clear();
   bool result = QSqlQuery::exec(query);
-  logQuery(result);
+  logQuery();
   return result;
 }
 
 bool LoggedQuery::exec() {
   bool result = QSqlQuery::exec();
-  logQuery(result);
+  logQuery();
   return result;
 }
 
-void LoggedQuery::logQuery(bool success) const {
+void LoggedQuery::logQuery() const {
   Tracer tracer("LoggedQuery::exec", lastQuery());
 
-  if (success) {
+  if (isActive()) {
     if (isSelect()) {
       tracer << "Returned rows: " << size();
     } else {
       tracer << "Rows affected: " << numRowsAffected();
     }
   } else {
-    Logger::instance() << Severity::ERROR << "MySQL returned with error: \""
+    Logger::instance() << Severity::ERROR << "SQL returned with error: \""
                        << lastError().text() << "\"";
   }
 }
