@@ -25,9 +25,11 @@ void Logger::registerWriter(LogWriter* const writer) {
 
 void Logger::writeMessage(const Severity::SeverityType severity,
                           const QString& message) const {
-  for( QList<LogWriter*>::const_iterator it = writers_.begin();
+  if ((severity <= Severity::MIN) || (severity >= Severity::MAX)) return;
+
+  for (QList<LogWriter*>::const_iterator it = writers_.begin();
        it != writers_.end();
-       ++it ) {
+       ++it) {
     (*it)->writeMessage(severity, message);
   }
 }
