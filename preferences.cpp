@@ -1,22 +1,21 @@
+#include <QFile>
+
 #include "preferences.h"
 
-void Preferences::load() throw(SevException) {
+void Preferences::load() {
+  bool file_exists = QFile::exists(settings_file_name_);
+
   QSettings pref_file(settings_file_name_, QSettings::IniFormat);
-  if (pref_file.status() != QSettings::NoError) {
-    throw SevException(Severity::WARNING,
-                QString("Failed to open preferences file: %1").arg(settings_file_name_));
-  }
 
   readSettings(&pref_file);
+
+  if (!file_exists) {
+    save(); // If INI file did not exist before, save default settings
+  }
 }
 
-void Preferences::save() const throw(SevException) {
+void Preferences::save() const {
   QSettings pref_file(settings_file_name_, QSettings::IniFormat);
-  if (pref_file.status() != QSettings::NoError) {
-    throw SevException(Severity::WARNING,
-            QString("Failed to write to preferences file: %1").arg(settings_file_name_));
-  }
 
   writeSettings(&pref_file);
 }
-

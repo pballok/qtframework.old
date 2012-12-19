@@ -33,8 +33,8 @@ class Preferences {
     return settings_file_name_;
   }
 
-  void load() throw(SevException);
-  void save() const throw(SevException);
+  void load();
+  void save() const;
 
  protected:
   Preferences() : app_name_(""), app_version_(""), framework_version_("1.0"), settings_file_name_("") {}
@@ -42,7 +42,7 @@ class Preferences {
   Preferences& operator=(Preferences const&) {return *this;}
   virtual ~Preferences() {}
 
-  virtual void readSettings(const QSettings* const settings_file) = 0;
+  virtual void readSettings(QSettings* const settings_file) = 0;
   virtual void writeSettings(QSettings* const settings_file) const = 0;
 
  private:
